@@ -2,7 +2,7 @@ import numpy as np
 import torch
 from collections import deque
 from unityagents import UnityEnvironment
-from maddpg_agent import MADDPG
+from maddpg_agent import MultiAgentDDPG
 from config_loader import Configurations
 from utils import create_simple_training_plot, create_complex_training_plot
 
@@ -18,8 +18,10 @@ class MADDPGTrainer:
 
         self.initialize_unity()
         self.print_environment_information()
-        self.multiagent = MADDPG(state_size=self.state_size, action_size=self.action_size,
-                                     num_agents=self.num_agents, random_seed=2)
+        self.multiagent = MultiAgentDDPG(state_size=self.state_size, 
+                                         action_size=self.action_size,
+                                         num_agents=self.num_agents, 
+                                         random_seed=2)
 
     def initialize_unity(self):
         self.env = UnityEnvironment(file_name=self.file_path)
@@ -97,6 +99,8 @@ if __name__ == '__main__':
     scores = trainer.maddpg_train()
     trainer.generate_result_plots(scores)
     trainer.close()
+
+
 
 '''
 env = UnityEnvironment(file_name="./Tennis_Linux/Tennis.x86")
