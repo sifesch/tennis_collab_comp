@@ -1,0 +1,38 @@
+HYPERPARAMETERS:
+  TRIAL_NAME: 'Final_Agent_03'
+  N_EPISODES: 2000
+  MAX_T: 2000
+  BUFFER_SIZE: 100000  # replay buffer size
+  BUFFER_SIZE_MADDPG: 100000  # replay buffer size
+  BATCH_SIZE: 128        # minibatch size
+  BATCH_SIZE_MADDPG: 128        # minibatch size
+  GAMMA: 0.99           # discount factor
+  TAU: 0.001              # for soft update of target parameters
+  LEARN_FREQ: 22         # for updating learning 
+  GRADIENT_UPDATES: 10   # Decision how many time the gradients are updated during each step
+  REWARD_SCALING: False
+  SCALE_FACTOR_REWARD: 0.01
+  ACTOR_PARAMS:
+    BATCH_NORMILIZATION: True
+    LR_ACTOR: 0.0001        # learning rate of the actor 
+    FC1_UNITS: 32
+    FC2_UNITS: 64
+  CRITIC_PARAMS:
+    BATCH_NORMILIZATION: True
+    LR_CRITIC: 0.001        # learning rate of the critic
+    FC1_UNITS: 64
+    FC2_UNITS: 128
+    WEIGHT_DECAY: 0.0      # L2 weight decay
+
+NOISE:
+  GENERAL:
+    PROB_NOISE_OR_OU: 'prob'    # choice of prob or noice
+    ACT_NOISE_DECAY: False      # Decision to Activate decaying noise rate
+  OUNoise_Config:
+    MU: 0.0
+    THETA: 0.15
+    SIGMA: 0.15
+  ProbNoise_Config:
+    NOISE_INIT: 0.99       # Initialization of noise factor 
+    NOISE_DECAY: 0.95      # Decaying rate for probabilistc noise
+    NOISE_MIN: 0.01        # Min Value for Decaying Noise
