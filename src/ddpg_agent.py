@@ -30,10 +30,6 @@ MU = config.noise_config.OUNoise_Config.MU
 SIGMA = config.noise_config.OUNoise_Config.SIGMA
 THETA = config.noise_config.OUNoise_Config.THETA
 
-# REWARD SCALING HYPERPARAMETERS
-REWARD_SCALING = config.hyperparameters.REWARD_SCALING
-SCALE_FACTOR_REWARD = config.hyperparameters.SCALE_FACTOR_REWARD
-
 # ACTOR HYPERPARAMETERS
 LR_ACTOR = float(config.hyperparameters.ACTOR_PARAMS.LR_ACTOR)
 FC1_UNITS_ACTOR = config.hyperparameters.ACTOR_PARAMS.FC1_UNITS
@@ -88,6 +84,17 @@ class DDPGAgent():
         # Replay memory
         #self.memory = ReplayBuffer(action_size, BUFFER_SIZE, BATCH_SIZE, self.seed)
 
+    def act_ou(self, state, add_noise=True):
+        """Returns actions for given state as per current policy."""
+        state = torch.from_numpy(state).float().to(device)
+        self.actor_local.eval()
+        with torch.no_grad():
+            action = self.actor_local(state).cpu().data.numpy()
+        self.actor_local.train()
+        if add_noise:
+            action += self.noise.sample()
+        return np.clip(action, -1, 1)
+    
     def act_probabilistic(self, state, add_noise=True):
         """Returns actions for given state using a stochastic policy with Tanh-squashed Gaussian noise."""
         state = torch.from_numpy(state).float().to(device)
