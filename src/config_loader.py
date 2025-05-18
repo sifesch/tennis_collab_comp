@@ -20,8 +20,6 @@ class Configurations:
             TRIAL_NAME = hp['TRIAL_NAME'],
             BUFFER_SIZE = hp['BUFFER_SIZE'],
             BATCH_SIZE = hp['BATCH_SIZE'],
-            BUFFER_SIZE_MADDPG = hp['BUFFER_SIZE_MADDPG'],
-            BATCH_SIZE_MADDPG = hp['BATCH_SIZE_MADDPG'],
             GAMMA = hp['GAMMA'],
             TAU = hp['TAU'],
             LEARN_FREQ = hp['LEARN_FREQ'],
@@ -164,7 +162,9 @@ class GeneralNoiseConfig:
         ACT_NOISE_DECAY (float): Decay rate of the applied action noise.
     """
     PROB_NOISE_OR_OU: str
-    ACT_NOISE_DECAY: float
+    ACT_NOISE_DECAY: bool
+    ADD_NOISE: bool
+    STOP_NOISE: int
 
 @dataclass
 class NoiseConfig:

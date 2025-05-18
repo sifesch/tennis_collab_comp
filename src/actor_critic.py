@@ -9,6 +9,8 @@ def hidden_init(layer):
     lim = 1. / np.sqrt(fan_in)
     return (-lim, lim)
 
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
 class Actor(nn.Module):
     """Actor (Policy) Model."""
 
@@ -40,19 +42,19 @@ class Actor(nn.Module):
 
     def forward(self, state):
         """Build an actor (policy) network that maps states -> actions."""
-        #if self.batch_norm:
-        #x = self.bn0(state)
-        #x = F.relu(self.bn1(self.fc1(x)))
-        #x = F.relu(self.bn2(self.fc2(x)))
-        #else:
-        x = F.relu(self.fc1(state))
-        x = F.relu(self.fc2(x))
-        return torch.tanh(self.fc3(x))
+        if self.batch_norm:
+            x = self.bn0(state)
+            x = F.relu(self.bn1(self.fc1(x)))
+            x = F.relu(self.bn2(self.fc2(x)))
+        else:
+            x = F.relu(self.fc1(state))
+            x = F.relu(self.fc2(x))
+        return F.tanh(self.fc3(x))
 
 class Critic(nn.Module):
     """Critic (Value) Model."""
 
-    def __init__(self, state_size, action_size, num_agents, random_seed, fcs1_units=64, fc2_units=128, batch_norm = True):
+    def __init__(self, state_size, action_size, num_agents, seed, fcs1_units=64, fc2_units=128, batch_norm = True):
         """Initialize parameters and build model.
         Params
         ======
@@ -63,8 +65,8 @@ class Critic(nn.Module):
             fc2_units (int): Number of nodes in the second hidden layer
         """
         super(Critic, self).__init__()
-        input_size = (state_size+action_size)*num_agents
-        self.seed = torch.manual_seed(random_seed)
+        input_size = (state_size + action_size) *num_agents
+        self.seed = torch.manual_seed(seed)
         self.fcs1 = nn.Linear(input_size, fcs1_units)
         self.fc2 = nn.Linear(fcs1_units, fc2_units)
         self.fc3 = nn.Linear(fc2_units, 1)
@@ -79,10 +81,10 @@ class Critic(nn.Module):
 
     def forward(self, state, action):
         """Build a critic (value) network that maps (state, action) pairs -> Q-values."""
-        #if self.batch_norm == True:
-        #    xs = F.relu(self.b1(self.fcs1(state)))
-        #else:
-        xs = torch.cat((state, action), dim=1)
-        x = F.relu(self.fcs1(xs))
-        x = F.relu(self.fc2(x))
-        return self.fc3(x)
+        x = torch.cat((state, action), dim=1) 
+        x = self.fcs1(x)                       
+        if self.batch_norm:
+            x = self.b1(x)                     
+        x = F.relu(x)                          
+        x = F.relu(self.fc2(x))                
+        return self.fc3(x)                     

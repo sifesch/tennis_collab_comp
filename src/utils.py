@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def create_complex_training_plot(scores: list, trialname: str = '01', window_size: int = 10):
+def create_complex_training_plot(scores: list, trialname: str = '01', window_size: int = 10, target_score: int = 0.5):
     """
     function to create a training plot and save it.
 
@@ -17,7 +17,7 @@ def create_complex_training_plot(scores: list, trialname: str = '01', window_siz
     plt.figure(figsize=(12, 8))
     plt.plot(np.arange(len(scores)), scores, label="Scores", alpha=0.5)
     plt.plot(np.arange(window_size-1, len(scores)), rolling_avg, label=f"{window_size}-Episode Rolling Avg", color='orange', linewidth=2)
-    plt.axhline(y=30, color='r', linestyle='--', linewidth=2, label="Target Score")
+    plt.axhline(y=target_score, color='r', linestyle='--', linewidth=2, label="Target Score")
     plt.ylabel('Score')
     plt.xlabel('Episode #')
     plt.title('Training Progress')
