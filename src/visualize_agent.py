@@ -75,4 +75,3 @@ if __name__ == "__main__":
                                         path_agents='models/Prob_Noise_DeepNet_BufferPlus_Learn_FreqMin_BatchNorm_03',
                  seed = 2)
     visualizer.run(max_t = 2000)
-    #visualizer.maddpg_evaluate(n_episodes=100)

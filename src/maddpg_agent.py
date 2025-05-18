@@ -45,7 +45,6 @@ class MultiAgentDDPG():
 
     def step(self, states, actions, rewards, next_states, dones) -> None:
         
-        
         self.memory.add(states=states,
                         actions=actions,
                         rewards=rewards,
