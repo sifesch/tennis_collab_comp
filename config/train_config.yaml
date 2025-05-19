@@ -1,5 +1,5 @@
 HYPERPARAMETERS:
-  TRIAL_NAME: Prob_Noise_DeepNet_BufferPlus_Learn_FreqMin_BatchNorm_08
+  TRIAL_NAME: Prob_Noise_DeepNet_BufferPlus_Learn_FreqMin_BatchNorm_09
   N_EPISODES: 15000
   MAX_T: 1000
   BUFFER_SIZE: 1000000
@@ -26,7 +26,7 @@ NOISE:
     PROB_NOISE_OR_OU: prob
     ACT_NOISE_DECAY: false
     ADD_NOISE: False          # DISABLED
-    STOP_NOISE: 30000
+    STOP_NOISE: 50000
   OUNoise_Config:
     MU: 0.0
     THETA: 0.15
